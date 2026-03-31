@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syed Sadakath | Implementation Manager</title>
+<style>
+  :root {
+    --accent: #2563EB;
+    --accent-light: #EFF6FF;
+    --dark: #1A1A2E;
+    --mid: #374151;
+    --muted: #6B7280;
+    --border: #E5E7EB;
+    --bg: #ffffff;
+    --bg2: #F9FAFB;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: var(--mid); background: var(--bg); line-height: 1.7; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); z-index: 100; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  nav .logo { font-weight: 700; font-size: 1.1rem; color: var(--dark); letter-spacing: -0.3px; }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav a { text-decoration: none; font-size: 0.9rem; color: var(--muted); transition: color 0.2s; }
+  nav a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, #1A1A2E 0%, #2563EB 100%); color: white; padding: 5rem 2rem 4rem; text-align: center; }
+  .hero-avatar { width: 90px; height: 90px; border-radius: 50%; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 700; margin: 0 auto 1.5rem; border: 3px solid rgba(255,255,255,0.3); }
+  .hero h1 { font-size: 2.6rem; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 0.5rem; }
+  .hero .title { font-size: 1.15rem; opacity: 0.85; margin-bottom: 1.5rem; }
+  .hero .contact { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; font-size: 0.9rem; opacity: 0.8; margin-bottom: 2rem; }
+  .hero .contact span::before { margin-right: 0.3rem; }
+  .stat-row { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; }
+  .stat { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 1rem 1.5rem; min-width: 140px; }
+  .stat .num { font-size: 1.9rem; font-weight: 700; line-height: 1; }
+  .stat .label { font-size: 0.78rem; opacity: 0.75; margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  .badge-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; }
+  .badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 0.35rem 1rem; font-size: 0.82rem; }
+
+  /* SECTIONS */
+  section { padding: 4rem 2rem; max-width: 960px; margin: 0 auto; }
+  .section-label { font-size: 0.75rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.5rem; }
+  h2 { font-size: 1.7rem; font-weight: 700; color: var(--dark); margin-bottom: 2rem; }
+  .divider { width: 100%; height: 1px; background: var(--border); margin: 0; }
+
+  /* ABOUT */
+  .about-text { font-size: 1.05rem; color: var(--mid); max-width: 760px; }
+  .highlight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
+  .highlight-card { background: var(--accent-light); border-radius: 10px; padding: 1.2rem; border-left: 4px solid var(--accent); }
+  .highlight-card .hc-num { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+  .highlight-card .hc-label { font-size: 0.85rem; color: var(--mid); margin-top: 0.2rem; }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+  .skill-cat { background: var(--bg2); border-radius: 10px; padding: 1.2rem; border: 1px solid var(--border); }
+  .skill-cat h4 { font-size: 0.82rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.8rem; }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag { background: white; border: 1px solid var(--border); border-radius: 6px; padding: 0.25rem 0.65rem; font-size: 0.82rem; color: var(--mid); }
+
+  /* EXPERIENCE */
+  .timeline { position: relative; }
+  .timeline::before { content: ''; position: absolute; left: 11px; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
+  .job { position: relative; padding-left: 2.5rem; margin-bottom: 2.5rem; }
+  .job-dot { position: absolute; left: 0; top: 6px; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; }
+  .job-dot::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: white; }
+  .job-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.3rem; }
+  .job-title { font-size: 1.05rem; font-weight: 700; color: var(--dark); }
+  .job-dates { font-size: 0.82rem; color: var(--muted); background: var(--bg2); padding: 0.2rem 0.6rem; border-radius: 20px; border: 1px solid var(--border); white-space: nowrap; }
+  .job-company { font-size: 0.9rem; color: var(--accent); font-weight: 600; margin-bottom: 0.8rem; }
+  .job ul { padding-left: 1.2rem; }
+  .job li { font-size: 0.92rem; color: var(--mid); margin-bottom: 0.4rem; }
+  .award-tag { display: inline-block; background: #FEF9C3; border: 1px solid #FDE047; color: #854D0E; font-size: 0.78rem; padding: 0.25rem 0.7rem; border-radius: 6px; margin-top: 0.8rem; font-weight: 600; }
+
+  /* CONFERENCES */
+  .conf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.2rem; }
+  .conf-card { background: var(--bg2); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border); }
+  .conf-card .conf-year { font-size: 0.78rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.4rem; }
+  .conf-card h4 { font-size: 1rem; font-weight: 700; color: var(--dark); margin-bottom: 0.5rem; }
+  .conf-card p { font-size: 0.88rem; color: var(--muted); }
+
+  /* EDUCATION */
+  .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+  .edu-card { background: var(--bg2); border-radius: 10px; padding: 1.2rem; border: 1px solid var(--border); }
+  .edu-card .degree { font-weight: 700; color: var(--dark); margin-bottom: 0.2rem; }
+  .edu-card .school { font-size: 0.88rem; color: var(--muted); }
+  .edu-card .year { font-size: 0.8rem; color: var(--accent); margin-top: 0.4rem; font-weight: 600; }
+
+  /* CTA */
+  .cta-section { background: linear-gradient(135deg, #1A1A2E, #2563EB); color: white; padding: 4rem 2rem; text-align: center; }
+  .cta-section h2 { color: white; font-size: 1.8rem; margin-bottom: 0.8rem; }
+  .cta-section p { opacity: 0.8; margin-bottom: 2rem; font-size: 1rem; }
+  .cta-btn { display: inline-block; background: white; color: var(--accent); font-weight: 700; padding: 0.75rem 2rem; border-radius: 8px; text-decoration: none; font-size: 0.95rem; transition: opacity 0.2s; }
+  .cta-btn:hover { opacity: 0.9; }
+
+  /* FOOTER */
+  footer { text-align: center; padding: 2rem; font-size: 0.82rem; color: var(--muted); border-top: 1px solid var(--border); }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 1.8rem; }
+    nav ul { gap: 1rem; }
+    .stat-row { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Syed Sadakath</div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-avatar">SS</div>
+  <h1>Syed Sadakath</h1>
+  <div class="title">Implementation Manager &nbsp;·&nbsp; Veterinary Practice Management Software</div>
+  <div class="contact">
+    <span>📍 Bengaluru, India</span>
+    <span>📞 +91 9066610489</span>
+    <span>✉️ Syedsadakath.work@gmail.com</span>
+    <a href="https://www.linkedin.com/in/syed-sadakath-7194491b1/" target="_blank" style="color:white;opacity:0.8;text-decoration:none;">🔗 LinkedIn</a>
+  </div>
+  <div class="stat-row">
+    <div class="stat"><div class="num">487</div><div class="label">Clinics &amp; Hospitals</div></div>
+    <div class="stat"><div class="num">90%</div><div class="label">CSAT Score</div></div>
+    <div class="stat"><div class="num">98%</div><div class="label">Conversion Rate</div></div>
+    <div class="stat"><div class="num">6+</div><div class="label">Years Experience</div></div>
+  </div>
+  <div class="badge-row">
+    <div class="badge">🏆 3x Employee of the Quarter</div>
+    <div class="badge">🌍 MEAVC 2025</div>
+    <div class="badge">🇺🇸 VMX 2026</div>
+    <div class="badge">🌐 UAE · Saudi Arabia · USA · India</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About Me</div>
+  <h2>Turning complex implementations into seamless go-lives</h2>
+  <p class="about-text">
+    I'm an Implementation Manager with 5+ years of experience delivering end-to-end SaaS implementations in the veterinary technology sector. Over 2+ years at Harns Technologies, I've personally managed <strong>487 unique hospitals and clinics</strong> across India, UAE, Saudi Arabia, and the USA — building a reputation for zero-disruption go-lives, rigorous data migrations, and exceptional client outcomes.
+  </p>
+  <div class="highlight-grid">
+    <div class="highlight-card"><div class="hc-num">487</div><div class="hc-label">Unique hospitals &amp; clinics onboarded across 4 countries</div></div>
+    <div class="highlight-card"><div class="hc-num">90%</div><div class="hc-label">CSAT score sustained across all client engagements</div></div>
+    <div class="highlight-card"><div class="hc-num">98%</div><div class="hc-label">Implementation outcome &amp; conversion rate</div></div>
+    <div class="highlight-card"><div class="hc-num">3x</div><div class="hc-label">Employee of the Quarter at Harns Technologies</div></div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">Core Competencies</div>
+  <h2>Skills &amp; Tools</h2>
+  <div class="skills-grid">
+    <div class="skill-cat">
+      <h4>Implementation</h4>
+      <div class="tags">
+        <span class="tag">End-to-end SaaS</span><span class="tag">Workflow Design</span><span class="tag">UAT &amp; Sign-off</span><span class="tag">Go-live Management</span><span class="tag">Data Migration</span>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <h4>Client Success</h4>
+      <div class="tags">
+        <span class="tag">Onboarding &amp; Training</span><span class="tag">Executive Demos</span><span class="tag">Post Go-live Support</span><span class="tag">CSAT Optimisation</span><span class="tag">CRM</span>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <h4>Leadership</h4>
+      <div class="tags">
+        <span class="tag">Team Supervision</span><span class="tag">Performance Management</span><span class="tag">QA Benchmarking</span><span class="tag">Mentoring</span><span class="tag">Helpfile Authoring</span>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <h4>Platforms</h4>
+      <div class="tags">
+        <span class="tag">VETport</span><span class="tag">WOOVet</span><span class="tag">Amazon SES</span><span class="tag">Lab Integrations</span><span class="tag">Marketplace Modules</span>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <h4>Support &amp; PM Tools</h4>
+      <div class="tags">
+        <span class="tag">Freshdesk</span><span class="tag">ZohoDesk</span><span class="tag">Zendesk</span><span class="tag">Jira</span><span class="tag">Zoho Projects</span><span class="tag">ProofHub</span><span class="tag">RCAS</span>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <h4>Other Tools</h4>
+      <div class="tags">
+        <span class="tag">Zoho CRM</span><span class="tag">Google Workspace</span><span class="tag">REST APIs</span><span class="tag">Third-party Integrations</span>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Career History</div>
+  <h2>Professional Experience</h2>
+  <div class="timeline">
+
+    <div class="job">
+      <div class="job-dot"></div>
+      <div class="job-header">
+        <div class="job-title">Implementation Specialist</div>
+        <div class="job-dates">April 2025 – Present</div>
+      </div>
+      <div class="job-company">Harns Technologies Pvt Ltd · Bengaluru</div>
+      <ul>
+        <li>Led end-to-end implementations for 487 unique hospitals and clinics across India, UAE, Saudi Arabia, and the USA (Florida) — 98% outcome &amp; conversion rate.</li>
+        <li>Maintained 90% CSAT through structured onboarding and proactive post go-live support.</li>
+        <li>Conducted on-site visits in UAE, Saudi Arabia, and the USA to map clinical workflows and align platform capabilities.</li>
+        <li>Owned full-cycle data migrations — field mapping, transformation logic, and zero-loss integrity validation.</li>
+        <li>Designed and executed UAT plans; coordinated stakeholder sign-off before each go-live.</li>
+        <li>Supervised and mentored the support team, setting quality benchmarks and driving performance reviews.</li>
+      </ul>
+      <div class="award-tag">🏆 Employee of the Quarter — Q3 FY2025–26 &amp; Q4 FY2024–25</div>
+    </div>
+
+    <div class="job">
+      <div class="job-dot"></div>
+      <div class="job-header">
+        <div class="job-title">Senior Associate</div>
+        <div class="job-dates">Feb 2024 – March 2025</div>
+      </div>
+      <div class="job-company">Harns Technologies Pvt Ltd · Bengaluru</div>
+      <ul>
+        <li>Managed full-platform VETport &amp; WOOVet operations across global client regions.</li>
+        <li>Spearheaded onboarding for small and large animal hospitals with a 98% conversion rate.</li>
+        <li>Integrated marketplace modules: communications, marketing, accounting, lab, radiography, microchipping, and more.</li>
+        <li>Provided multi-channel support (WhatsApp, live chat, email, phone) with consistent 90% CSAT.</li>
+      </ul>
+      <div class="award-tag">🏆 Employee of the Quarter — Q2 FY2024–25</div>
+    </div>
+
+    <div class="job">
+      <div class="job-dot"></div>
+      <div class="job-header">
+        <div class="job-title">Senior CSA → Team Lead</div>
+        <div class="job-dates">March 2022 – Nov 2023</div>
+      </div>
+      <div class="job-company">Gameskraft Technologies Pvt Ltd · Bengaluru</div>
+      <ul>
+        <li>Promoted to Team Lead for outstanding performance and leadership potential.</li>
+        <li>Managed KYC compliance, TDS processing, IVR routing, and SMS marketing campaigns.</li>
+        <li>Supervised team metrics and implemented process improvements to streamline delivery.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-dot"></div>
+      <div class="job-header">
+        <div class="job-title">Client Relationship Manager</div>
+        <div class="job-dates">Jan 2021 – March 2022</div>
+      </div>
+      <div class="job-company">ExpertCallers (Flatworld Solutions) · Bengaluru</div>
+      <ul>
+        <li>Managed end-to-end client communications and consistently achieved sales targets.</li>
+        <li>Identified cross-sell and up-sell opportunities while building long-term client relationships.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- CONFERENCES -->
+<section>
+  <div class="section-label">Industry Presence</div>
+  <h2>Conferences &amp; Events</h2>
+  <div class="conf-grid">
+    <div class="conf-card">
+      <div class="conf-year">2025 · Middle East</div>
+      <h4>MEAVC 2025</h4>
+      <p>Middle East Veterinary Conference — Selected to represent Harns Technologies for product showcasing and client engagement across the Middle East veterinary market.</p>
+    </div>
+    <div class="conf-card">
+      <div class="conf-year">2026 · North America</div>
+      <h4>VMX 2026</h4>
+      <p>Veterinary Meeting &amp; Expo, Florida — Selected to represent VETport &amp; WOOVet at one of North America's premier veterinary conferences, contributing to global business development.</p>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- EDUCATION -->
+<section>
+  <div class="section-label">Education</div>
+  <h2>Academic Background</h2>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <div class="degree">Bachelor of Commerce (B.Com)</div>
+      <div class="school">Indian Institute of Management and Technical Education (IIMT), Bengaluru</div>
+      <div class="year">2019 – 2022</div>
+    </div>
+    <div class="edu-card">
+      <div class="degree">Diploma in Computer Applications</div>
+      <div class="school">NIELIT, Bengaluru</div>
+      <div class="year">2017 – 2018</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section" id="contact">
+  <h2>Open to New Opportunities</h2>
+  <p>Looking for Implementation Manager roles in veterinary practice management software. Available for on-site, hybrid, or remote engagements globally.</p>
+  <a href="mailto:Syedsadakath.work@gmail.com" class="cta-btn">Get in Touch</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>Syed Sadakath &nbsp;·&nbsp; Implementation Manager &nbsp;·&nbsp; Bengaluru, India &nbsp;·&nbsp; +9
